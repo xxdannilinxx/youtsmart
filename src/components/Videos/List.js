@@ -38,8 +38,6 @@ export default function List(props) {
     const classes = useStyles();
     const [loading, setLoading] = React.useState(props.loading);
     const [videos, setVideos] = React.useState(props.videos);
-    // const loading = props.loading || true;
-    // const videos = props.videos || [];
 
     React.useEffect(() => {
         setLoading(props.loading);
