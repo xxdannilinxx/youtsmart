@@ -20,7 +20,7 @@ export default function NotFound(props) {
                             404
                     </Typography>
                         <Typography>
-                            Não encontramos o que você procura no momento, volte para o <Link to="/" replace>início.</Link>
+                            Não encontramos o que você procura no momento, volte para o <Link to="/" push>início.</Link>
                         </Typography>
                     </div>
                 </Grid>

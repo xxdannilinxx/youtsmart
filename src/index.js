@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import HomePage from './pages/Home';
+import WatchPage from './pages/Watch';
+import FavoritesPage from './pages/Favorites';
 import NotFoundPage from './pages/NotFound';
 
 import reportWebVitals from './reportWebVitals';
@@ -19,6 +21,12 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/">
           <HomePage />
+        </Route>
+        <Route path="/watch/:id">
+          <WatchPage />
+        </Route>
+        <Route path="/favorites">
+          <FavoritesPage />
         </Route>
         <Route path='/404'>
           <NotFoundPage />

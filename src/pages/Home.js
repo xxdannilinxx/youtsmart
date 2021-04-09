@@ -1,6 +1,5 @@
 import React from 'react'
 import axios from 'axios';
-import moment from 'moment';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -15,6 +14,7 @@ import FooterComponent from '../components/SharedComponents/Footer';
 import ListVideosComponent from '../components/Videos/List';
 
 import { configs } from '../config/youtube';
+import parseVideo from '../utils/parseVideo';
 
 const useStyles = makeStyles((theme) => ({
     categories: {
@@ -40,8 +40,8 @@ export default function Home(props) {
     const [videosEducacao, setVideosEducacao] = React.useState([]);
     const [videosDocumentario, setVideosDocumentario] = React.useState([]);
     const [videosPesquisa, setVideosPesquisa] = React.useState([]);
-    const [videosFavoritos] = React.useState(localStorage.getItem('favoritos') || []);
-    const [videosAssistidosRecentemente] = React.useState(localStorage.getItem('assistidos') || []);
+    const [videosFavoritos] = React.useState(JSON.parse(localStorage.getItem('favoritos')) || []);
+    const [videosAssistidosRecentemente] = React.useState(JSON.parse(localStorage.getItem('assistidos')) || []);
     const [searchs, setSearchs] = React.useState(JSON.parse(localStorage.getItem('searchs')) || []);
 
     function searchingYoutube(search) {
@@ -54,13 +54,7 @@ export default function Home(props) {
                 .then(res => {
                     let items = [];
                     res.data.items.forEach(item => {
-                        items.push({
-                            id: item.id.videoId,
-                            title: item.snippet.title,
-                            channel: item.snippet.channelTitle,
-                            date: moment(item.snippet.publishedAt).format('DD/MM/YYYY') + ' às ' + moment(item.snippet.publishedAt).format('HH:mm'),
-                            image: item.snippet.thumbnails.high.url,
-                        });
+                        items.push(parseVideo(item));
                     });
                     setVideosPesquisa(items);
                     setLoading(false);
@@ -74,7 +68,10 @@ export default function Home(props) {
          * 
          */
         if (search) {
-            if (searchs.indexOf(search) === -1) {
+            let checar = searchs.filter(item => {
+                return item === search;
+            });
+            if (!checar.length) {
                 let schs = searchs;
                 schs = schs.slice(0, 4);
                 schs.unshift(search);
@@ -97,13 +94,7 @@ export default function Home(props) {
                 .then(res => {
                     let items = [];
                     res.data.items.forEach(item => {
-                        items.push({
-                            id: item.id.videoId,
-                            title: item.snippet.title,
-                            channel: item.snippet.channelTitle,
-                            date: moment(item.snippet.publishedAt).format('DD/MM/YYYY') + ' às ' + moment(item.snippet.publishedAt).format('HH:mm'),
-                            image: item.snippet.thumbnails.high.url,
-                        });
+                        items.push(parseVideo(item));
                     });
                     switch (categoryId) {
                         default:
@@ -149,7 +140,7 @@ export default function Home(props) {
                             />
                         </Grid>
                         <div className={classes.favorites}>
-                            <Link to="/favorites" replace>
+                            <Link to="/favorites" push>
                                 <Button variant="outlined" color="primary" position="inline">
                                     MEUS FAVORITOS
                             </Button>
