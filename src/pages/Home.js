@@ -76,7 +76,7 @@ export default function Home(props) {
                 schs = schs.slice(0, 4);
                 schs.unshift(search);
                 setSearchs(schs);
-                localStorage.setItem('searchs', JSON.stringify(searchs));
+                localStorage.setItem('searchs', JSON.stringify(schs));
             }
         }
         /**
@@ -98,13 +98,13 @@ export default function Home(props) {
                     });
                     switch (categoryId) {
                         default:
-                        case 10:
+                        case 10: // músicas
                             setVideosMusica(items);
                             break;
-                        case 27:
+                        case 27: // educação
                             setVideosEducacao(items);
                             break;
-                        case 35:
+                        case 35: // documentário
                             setVideosDocumentario(items);
                             break;
                     }
@@ -115,7 +115,9 @@ export default function Home(props) {
                     setLoading(false);
                 });
         }
-        getVideos();
+        getVideos(10);
+        getVideos(27);
+        getVideos(35);
     }, []);
 
     return (

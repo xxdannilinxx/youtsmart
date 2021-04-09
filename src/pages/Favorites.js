@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home(props) {
     const classes = useStyles();
-    const [videosFavoritos] = React.useState(localStorage.getItem('favoritos') || []);
+    const [videosFavoritos] = React.useState(JSON.parse(localStorage.getItem('favoritos')) || []);
 
     return (
         <React.Fragment>

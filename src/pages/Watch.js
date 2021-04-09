@@ -1,12 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import {
-    Link,
-    useParams
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -41,33 +37,31 @@ export default function Watch(props) {
                 return item.id !== id;
             });
         } else {
-            fvt.unshift((video ? video : { "id": id }));
+            if (video) {
+                fvt.unshift(video);
+            }
         }
         setFavorito(!favorito);
         setVideosFavoritos(fvt);
-        localStorage.setItem('favoritos', JSON.stringify(videosFavoritos));
+        localStorage.setItem('favoritos', JSON.stringify(fvt));
     }
 
-    React.useEffect(() => {
-        let checar = videosFavoritos.filter(item => {
-            return item.id === id;
-        });
-        if (checar.length) {
-            setFavorito(true);
-        }
-        /**
-         * 
-         */
+    function checkFavorito() {
         function getYoutubeInfos() {
             /**
              * 
              */
-            function updateVideosAssistidos(newVideo) {
-                let vidarec = videosAssistidosRecentemente;
-                vidarec = vidarec.slice(0, 2);
-                vidarec.unshift(newVideo);
-                setVideosAssistidosRecentemente(vidarec);
-                localStorage.setItem('assistidos', JSON.stringify(vidarec));
+            function updateVideosAssistidos(videoInfo) {
+                let checar = videosAssistidosRecentemente.filter(item => {
+                    return item.id === videoInfo.id;
+                });
+                if (!checar.length) {
+                    let vidarec = videosAssistidosRecentemente;
+                    vidarec = vidarec.slice(0, 2);
+                    vidarec.unshift(videoInfo);
+                    setVideosAssistidosRecentemente(vidarec);
+                    localStorage.setItem('assistidos', JSON.stringify(vidarec));
+                }
             }
             /**
              * 
@@ -79,21 +73,34 @@ export default function Watch(props) {
                         videoInfo = parseVideo(item);
                     });
                     setVideo(videoInfo);
-                    updateVideosAssistidos(video);
+                    updateVideosAssistidos(videoInfo);
                 })
                 .catch(error => {
                     history.push('/404');
                 });
         }
+        /**
+         * 
+         */
+        let checar = videosFavoritos.filter(item => {
+            return item.id === id;
+        });
+        if (checar.length) {
+            setFavorito(true);
+        }
         getYoutubeInfos();
-
-    }, [id, video, history, videosFavoritos, videosAssistidosRecentemente]);
+    }
+    /**
+     * 
+     * 
+     */
+    const useMountEffect = (fun) => React.useEffect(fun, [])
+    useMountEffect(checkFavorito);
 
     return (
         <React.Fragment>
             <HeaderComponent />
             <Grid container component="main">
-                assistir vídeo, colocar em vídeos assistidos recentemente e opção de favoritar, se já não estiver nos favoritos (remover)
                 <Grid container justify="center">
                     <ReactPlayer
                         width={860}

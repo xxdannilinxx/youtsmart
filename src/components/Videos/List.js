@@ -55,7 +55,7 @@ export default function List(props) {
                                     </Grid>
                                     :
                                     <Card className={classes.card}>
-                                        <Link to={location => ({ ...location, pathname: `/watch/${video.id}` })} replace >
+                                        <Link to={location => ({ ...location, pathname: `/watch/${video.id}` })} push>
                                             <CardMedia
                                                 className={classes.cardMedia}
                                                 image={video.image}
