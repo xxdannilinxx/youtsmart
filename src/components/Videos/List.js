@@ -10,13 +10,6 @@ import { Link } from 'react-router-dom';
 import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
-    heroContent: {
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(8, 0, 6),
-    },
-    heroButtons: {
-        marginTop: theme.spacing(4),
-    },
     cardGrid: {
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
@@ -52,14 +45,14 @@ export default function List(props) {
             <main>
                 <Container className={classes.cardGrid} maxWidth="md">
                     <Grid container spacing={4}>
-                        {videos.map(video => (
-                            <Grid item key={video} xs={12} sm={6} md={4}>
+                        {videos.map((video, idx) => (
+                            <Grid item key={idx} xs={12} sm={6} md={4}>
                                 { loading ?
-                                    <div>
+                                    <Grid item>
                                         <Skeleton height={260} width={260} />
                                         <Skeleton height={260} width={260} />
                                         <Skeleton height={260} width={260} />
-                                    </div>
+                                    </Grid>
                                     :
                                     <Card className={classes.card}>
                                         <Link to={location => ({ ...location, pathname: `/watch/${video.id}` })} replace >

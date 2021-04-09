@@ -5,19 +5,30 @@ import SearchComponent from '../components/SharedComponents/Search';
 import FooterComponent from '../components/SharedComponents/Footer';
 import ListVideosComponent from '../components/Videos/List';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { configs } from '../config/youtube';
 
 import axios from 'axios';
 import moment from 'moment';
 
+const useStyles = makeStyles((theme) => ({
+    categories: {
+        padding: theme.spacing(5, 5, 5, 5),
+    },
+}));
+
 export default function Home(props) {
+    const classes = useStyles();
     const [loading, setLoading] = React.useState(true);
-    const [videos, setVideos] = React.useState([]);
+    const [videosMusica, setVideosMusica] = React.useState([]);
+    const [videosEducacao, setVideosEducacao] = React.useState([]);
+    const [videosDocumentario, setVideosDocumentario] = React.useState([]);
+    const [videosFavoritos] = React.useState(localStorage.getItem('favoritos') || []);
 
     React.useEffect(() => {
-        const getVideos = async () => {
-            axios.get(`${configs.url.videoCategory}10`)
+        const getVideos = async (categoryId) => {
+            axios.get(`${configs.url.videoCategory}${categoryId}`)
                 .then(res => {
                     let items = [];
                     res.data.items.forEach(item => {
@@ -29,13 +40,24 @@ export default function Home(props) {
                             image: item.snippet.thumbnails.high.url,
                         });
                     });
-                    setVideos(items);
+                    switch (categoryId) {
+                        default:
+                        case 10:
+                            setVideosMusica(items);
+                            break;
+                        case 27:
+                            setVideosEducacao(items);
+                            break;
+                        case 35:
+                            setVideosDocumentario(items);
+                            break;
+                    }
                     setLoading(false);
                 })
                 .catch(error => {
                     console.error(error);
                     setLoading(false);
-                })
+                });
         }
         getVideos();
     }, []);
@@ -44,25 +66,25 @@ export default function Home(props) {
         <React.Fragment>
             <HeaderComponent />
             <SearchComponent />
-            <Typography gutterBottom variant="h5" component="h5">
-                Músicas
+            <Typography className={classes.categories} gutterBottom variant="h5" component="h5">
+                Música
             </Typography>
-            <ListVideosComponent videos={videos} loading={loading} />
+            <ListVideosComponent videos={videosMusica} loading={loading} />
 
-            <Typography gutterBottom variant="h5" component="h5">
+            <Typography className={classes.categories} gutterBottom variant="h5" component="h5">
                 Educação
             </Typography>
-            <ListVideosComponent videos={videos} loading={loading} />
+            <ListVideosComponent videos={videosEducacao} loading={loading} />
 
-            <Typography gutterBottom variant="h5" component="h5">
-                Documentários
+            <Typography className={classes.categories} gutterBottom variant="h5" component="h5">
+                Documentário
             </Typography>
-            <ListVideosComponent videos={videos} loading={loading} />
+            <ListVideosComponent videos={videosDocumentario} loading={loading} />
 
-            <Typography gutterBottom variant="h5" component="h5">
+            <Typography className={classes.categories} gutterBottom variant="h5" component="h5">
                 Favoritos
             </Typography>
-            <ListVideosComponent videos={videos} loading={loading} />
+            <ListVideosComponent videos={videosFavoritos} loading={loading} />
             <FooterComponent />
         </React.Fragment >
     );
