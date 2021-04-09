@@ -6,6 +6,8 @@ import FooterComponent from '../components/SharedComponents/Footer';
 import ListVideosComponent from '../components/Videos/List';
 import Typography from '@material-ui/core/Typography';
 
+import { configs } from '../config/youtube';
+
 import axios from 'axios';
 import moment from 'moment';
 
@@ -13,12 +15,9 @@ export default function Home(props) {
     const [loading, setLoading] = React.useState(true);
     const [videos, setVideos] = React.useState([]);
 
-
-    // getVideos();
-
     React.useEffect(() => {
         const getVideos = async () => {
-            axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoCategoryId=10&maxResults=3&key=AIzaSyAdxK6FHLKwTCh5yLQBP0YZ29vhhvPg_DA')
+            axios.get(`${configs.url.videoCategory}10`)
                 .then(res => {
                     let items = [];
                     res.data.items.forEach(item => {
