@@ -34,10 +34,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Album(props) {
+export default function List(props) {
     const classes = useStyles();
-    const loading = props.loading || false;
-    const videos = props.videos || (loading ? [{}, {}, {}] : []);
+    const [loading, setLoading] = React.useState(props.loading);
+    const [videos, setVideos] = React.useState(props.videos);
+    // const loading = props.loading || true;
+    // const videos = props.videos || [];
+
+    React.useEffect(() => {
+        setLoading(props.loading);
+    }, [props.loading]);
+
+    React.useEffect(() => {
+        setVideos(props.videos);
+    }, [props.videos]);
 
     return (
         <React.Fragment>
@@ -46,27 +56,34 @@ export default function Album(props) {
                     <Grid container spacing={4}>
                         {videos.map(video => (
                             <Grid item key={video} xs={12} sm={6} md={4}>
-                                { loading && <Skeleton height={260} width={260} />}
-                                <Card className={classes.card}>
-                                    <Link to={location => ({ ...location, pathname: `/watch/${video.id}` })} replace >
-                                        <CardMedia
-                                            className={classes.cardMedia}
-                                            image={video.image}
-                                            title={video.title}
-                                        />
-                                    </Link>
-                                    <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            {video.title}
-                                        </Typography>
-                                        <Typography>
-                                            {video.channel}
-                                        </Typography>
-                                        <Typography>
-                                            Publicado em {video.date}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
+                                { loading ?
+                                    <div>
+                                        <Skeleton height={260} width={260} />
+                                        <Skeleton height={260} width={260} />
+                                        <Skeleton height={260} width={260} />
+                                    </div>
+                                    :
+                                    <Card className={classes.card}>
+                                        <Link to={location => ({ ...location, pathname: `/watch/${video.id}` })} replace >
+                                            <CardMedia
+                                                className={classes.cardMedia}
+                                                image={video.image}
+                                                title={video.title}
+                                            />
+                                        </Link>
+                                        <CardContent className={classes.cardContent}>
+                                            <Typography gutterBottom variant="h5" component="h5">
+                                                {video.title}
+                                            </Typography>
+                                            <Typography>
+                                                {video.channel}
+                                            </Typography>
+                                            <Typography>
+                                                Publicado em {video.date}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                }
                             </Grid>
                         ))}
                     </Grid>

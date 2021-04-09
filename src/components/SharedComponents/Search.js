@@ -32,8 +32,13 @@ export default function Search() {
 
     function addSearch(search) {
         if (search) {
-            searchs.push(search);
-            localStorage.setItem('searchs', JSON.stringify(searchs));
+            if (searchs.indexOf(search) === -1) {
+                searchs.push(search);
+                localStorage.setItem('searchs', JSON.stringify(searchs.slice(0, 10)));
+            }
+            /**
+             * 
+             */
             history.push(`/search/${search}`);
         }
     }
@@ -44,11 +49,16 @@ export default function Search() {
                 <div className={classes.heroContent}>
                     <Container maxWidth="sm">
                         <div className={classes.heroButtons}>
-                            <Grid justify="center">
+                            <Grid>
                                 <Autocomplete
                                     {...defaultProps}
                                     id="disable-close-on-select"
                                     freeSolo
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            addSearch(e.target.value);
+                                        }
+                                    }}
                                     onChange={option => addSearch(option.target.value)}
                                     renderInput={(params) => (
                                         <TextField {...params} label="Faça sua pesquisa" margin="normal" />
