@@ -14,6 +14,12 @@ npm run start
 ### 🔧 API Youtube - OAuth 2.0
 O app consome a api do youtube, então é necessário gerar a chave API ou token no console de desenvolvedor do google e disponibilizar no arquivo: ```src/config/youtube.js```
 
+### Testes automatizados E2E/UI
+```
+npm run cypress:open
+npm run cypress:run
+```
+
 ### Vídeos
 * No início são listados três (3) sugestões de vídeos por categoria, sendo elas músicas, educação e documentário;
 
