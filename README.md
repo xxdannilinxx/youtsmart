@@ -11,6 +11,9 @@ npm run start
 ```
 3) Basta acessar o endereço http://127.0.0.1:8090/ (Por padrão 8090);
 
+## API Youtube - OAuth 2.0
+O app consome a api do youtube, então é necessário gerar a chave API ou token no console de desenvolvedor do google e disponibilizar no arquivo: ```src/config/youtube.js```
+
 ## Vídeos
 * No início são listados 3 vídeos por categoria, sendo elas músicas, educação e documentário;
 
