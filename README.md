@@ -1,6 +1,8 @@
 # youtsmart
 App consumindo API do Youtube para Smart TVs;
 
+![prototipagem feita pelo figma](https://github.com/xxdannilinxx/youtsmart/blob/main/figma.jpg?raw=true)
+
 ## 🚀 Como usar?
 1) Faça o clone do repositório.
 2) Rode os seguintes comandos
@@ -12,12 +14,12 @@ npm run start
 3) Basta acessar o endereço http://127.0.0.1:8090/ (Por padrão 8090);
 
 ### 🔧 API Youtube - OAuth 2.0
-O app consome a api do youtube, então é necessário gerar a chave API ou token no console de desenvolvedor do google e disponibilizar no arquivo: ```src/config/youtube.js```
+O app consome a api do youtube, então é necessário gerar a chave API ou token no console de desenvolvedor do google e disponibilizar no arquivo: [https://github.com/xxdannilinxx/youtsmart/tree/main/src/config/youtube.js](src/config/youtube.js).
 
-### Testes automatizados E2E/UI
+### Testes automatizados E2E/UI com o Jest
+Os testes estão localizados na pasta [https://github.com/xxdannilinxx/youtsmart/tree/main/__tests__](__tests__).
 ```
-npm run cypress:open
-npm run cypress:run
+npm run test:unit
 ```
 
 ### Vídeos

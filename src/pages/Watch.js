@@ -55,7 +55,7 @@ export default function Watch(props) {
              */
             function updateVideosAssistidos(videoInfo) {
                 let checar = videosAssistidosRecentemente.filter(item => {
-                    return item.id === videoInfo.id;
+                    return item.id === id;
                 });
                 if (!checar.length) {
                     let vidarec = videosAssistidosRecentemente;
@@ -98,7 +98,7 @@ export default function Watch(props) {
      * 
      * 
      */
-    const useMountEffect = (fun) => React.useEffect(fun, [])
+    const useMountEffect = (fun) => React.useEffect(fun, []);
     useMountEffect(checkFavorito);
 
     return (
@@ -118,7 +118,7 @@ export default function Watch(props) {
                 <Grid container justify="center">
                     <Typography>
                         {!loading && <Button variant="outlined" color="primary" position="inline" onClick={updateFavorites}>
-                            {favorito ? 'REMOVER' : 'ADICIONAR'} DOS FAVORITOS
+                            {favorito ? 'REMOVER DOS' : 'ADICIONAR AOS'} FAVORITOS
                         </Button>}
                     </Typography>
                 </Grid>

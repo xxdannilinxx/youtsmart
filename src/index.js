@@ -6,8 +6,6 @@ import WatchPage from './pages/Watch';
 import FavoritesPage from './pages/Favorites';
 import NotFoundPage from './pages/NotFound';
 
-import reportWebVitals from './reportWebVitals';
-
 import {
   BrowserRouter as Router,
   Switch,
@@ -37,6 +35,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-
-reportWebVitals(console.log);

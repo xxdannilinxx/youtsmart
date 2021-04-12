@@ -142,11 +142,9 @@ export default function Home(props) {
                             />
                         </Grid>
                         <div className={classes.favorites}>
-                            <Link to="/favorites" push>
-                                <Button variant="outlined" color="primary" position="inline">
-                                    MEUS FAVORITOS
+                            <Button component={Link} to="/favorites" variant="outlined" color="primary" position="inline">
+                                MEUS FAVORITOS
                             </Button>
-                            </Link>
                         </div>
                     </div>
                 </Container>
