@@ -7,6 +7,7 @@ import ReactPlayer from "react-player";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router-dom";
+import { Skeleton } from '@material-ui/lab';
 
 import HeaderComponent from '../components/SharedComponents/Header';
 import FooterComponent from '../components/SharedComponents/Footer';
@@ -25,6 +26,7 @@ export default function Watch(props) {
     const history = useHistory();
     const { id } = useParams();
     const url = `https://www.youtube.com/watch?v=${id}`;
+    const [loading, setLoading] = React.useState(true);
     const [videosFavoritos, setVideosFavoritos] = React.useState(JSON.parse(localStorage.getItem('favoritos')) || []);
     const [videosAssistidosRecentemente, setVideosAssistidosRecentemente] = React.useState(JSON.parse(localStorage.getItem('assistidos')) || []);
     const [favorito, setFavorito] = React.useState(false);
@@ -74,9 +76,11 @@ export default function Watch(props) {
                     });
                     setVideo(videoInfo);
                     updateVideosAssistidos(videoInfo);
+                    setLoading(false);
                 })
                 .catch(error => {
                     history.push('/404');
+                    setLoading(false);
                 });
         }
         /**
@@ -102,18 +106,20 @@ export default function Watch(props) {
             <HeaderComponent />
             <Grid container component="main">
                 <Grid container justify="center">
-                    <ReactPlayer
-                        width={860}
-                        height={480}
-                        className={classes.video}
-                        url={url}
-                    />
+                    {loading ?
+                        <Skeleton height={860} width={480} />
+                        : <ReactPlayer
+                            width={860}
+                            height={480}
+                            className={classes.video}
+                            url={url}
+                        />}
                 </Grid>
                 <Grid container justify="center">
                     <Typography>
-                        <Button variant="outlined" color="primary" position="inline" onClick={updateFavorites}>
+                        {!loading && <Button variant="outlined" color="primary" position="inline" onClick={updateFavorites}>
                             {favorito ? 'REMOVER' : 'ADICIONAR'} DOS FAVORITOS
-                        </Button>
+                        </Button>}
                     </Typography>
                 </Grid>
             </Grid>
