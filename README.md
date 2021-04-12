@@ -19,7 +19,7 @@ O app consome a api do youtube, então é necessário gerar a chave API ou token
 ### Testes automatizados E2E/UI com o Jest
 Os testes estão localizados na pasta [__tests__](https://github.com/xxdannilinxx/youtsmart/tree/main/__tests__).
 ```
-npm run test:unit
+npm run test
 ```
 
 ### Vídeos
